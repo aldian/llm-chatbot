@@ -1,12 +1,12 @@
 import argparse
 import asyncio
 import json
-import re
 import subprocess
 from pathlib import Path
 
 
-answer_re = re.compile(r"\[Answer\]:\s*(.*)\s*</s>\s*$", re.IGNORECASE)
+answer_begin_marker = "[Answer]:"
+answer_end_marker = "</s>"
 
 
 async def main():
@@ -45,8 +45,6 @@ async def main():
 
     prompt = args.prompt 
     sys_message = config.get("sys", "")
-    config["sys"] = ""
-    config_path.write_text(json.dumps(config))
 
     conversation = ""
     conversation_path = Path('context/conversation.txt')
@@ -69,11 +67,23 @@ async def main():
     ], capture_output=True, text=True)
 
     output = result.stdout.strip()
-    match = answer_re.search(output)
-    if match:
-        conversation += f" {match.group(1)} </s>"
-        conversation_path.write_text(conversation)
-        print(match.group(1))
+    idx = output.index(answer_begin_marker)
+    if idx == -1:
+        print("ERROR:", output)
+        return
+
+    begin_idx = idx + len(answer_begin_marker)
+    end_idx = output.index(answer_end_marker, begin_idx)
+    if end_idx == -1:
+        end_idx = len(output)
+
+    config["sys"] = ""
+    config_path.write_text(json.dumps(config))
+
+    output = output[begin_idx:end_idx].strip()
+    conversation += f" {output} </s>"
+    conversation_path.write_text(conversation)
+    print(output)
 
 
 if __name__ == "__main__":
