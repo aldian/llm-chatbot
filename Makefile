@@ -24,7 +24,13 @@ endif
 
 # Run the Docker container with the shared folder
 run: llms_host_dir_defined context_host_dir_defined
-	docker run --name=$(CONTAINER_NAME) -v $(LLMS_DIR):$(LLMS_CONTAINER_DIR) -v $(CONTEXT_DIR):$(CONTEXT_CONTAINER_DIR) -it --rm $(IMAGE_NAME)
+	@docker run --name=$(CONTAINER_NAME) \
+		-v $(LLMS_DIR):$(LLMS_CONTAINER_DIR) \
+		-v $(CONTEXT_DIR):$(CONTEXT_CONTAINER_DIR) \
+		-it --rm $(IMAGE_NAME) python main.py \
+		$(if "$(SYS)",--sys "$(SYS)") \
+		$(if $(MODEL),--model $(MODEL)) \
+		$(if "$(PROMPT)",--prompt "$(PROMPT)")
 
 # Remove the Docker container
 clean:
