@@ -7,9 +7,9 @@ When I tried to store a 4 GB LLM model in this repo, I got this error:
 ```
 Size must be less than or equal to 2147483648: [422] Size must be less than or equal to 2147483648
 ```
-Please provide the quantized LLM models yourself, or you can download them [here](https://drive.google.com/drive/folders/1cvIeDSwH1IzN7ouvwmb1vgg6UTcJIBdq?usp=drive_link), that contains Llama 2 and Mistral models.
+Please provide the quantized LLM models yourself, or you can download them [here](https://drive.google.com/drive/folders/1cvIeDSwH1IzN7ouvwmb1vgg6UTcJIBdq?usp=drive_link). That Google Drive folder contains Llama 2 and Mistral models.
 After checking out this repo, create a folder named `llms`, and copy the LLM models to it.
-After downloading the models, the `llms` folder should like like this:
+After downloading the models from the Google Drive folder, the `llms` folder should like like this:
 ```
 llms/
 ├── Llama-2-7B-chat-q5_k_m.gguf

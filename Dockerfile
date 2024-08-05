@@ -1,21 +1,16 @@
-# Use the official Ubuntu 22.04 as the base image
 FROM ubuntu:22.04
 
 WORKDIR /usr/app
 COPY . .
 
-# Set the environment variable to accept the EULA
 ENV ACCEPT_EULA=Y
 
-# Update and upgrade the system
 RUN apt-get update && apt-get upgrade -y
 
-# Install necessary packages
 RUN apt-get install -y software-properties-common build-essential libopenblas-dev ninja-build pkg-config cmake-data clang \
     git curl wget zip unzip \
     python3 python3-pip python-is-python3
 
-# Upgrade pip and install required Python packages
 RUN python3 -m pip install --upgrade pip
 
 # Install Rust
