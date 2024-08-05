@@ -130,4 +130,5 @@ dist
 .pnp.*
 
 llms/
+context/
 __pycache__/
