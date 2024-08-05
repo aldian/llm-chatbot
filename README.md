@@ -1,5 +1,7 @@
 # llm-chatbot
 
+An LLM chat bot that is installed on local machine and accessed via command line.
+
 ## Set up the LLM models
 
 As I am using the [GitHub Free](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage) plan, the largest file I store can only have size 2GB.
