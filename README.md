@@ -2,15 +2,15 @@
 
 An LLM chat bot that is installed on local machine and accessed via command line or network.
 
-## Set up the LLM models
+## Set up the LLM files
 
 As I am using the [GitHub Free](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage) plan, the largest file I store can only have size 2 GB.
-When I tried to store a 4 GB LLM model in this repo, I got this error:
+When I tried to store a 4 GB LLM file in this repo, I got this error:
 ```
 [422] Size must be less than or equal to 2147483648
 ```
-Therefore, please provide the quantized LLM models yourself, or you can download them [here](https://drive.google.com/drive/folders/1cvIeDSwH1IzN7ouvwmb1vgg6UTcJIBdq?usp=drive_link). That Google Drive folder contains Llama 2 and Mistral models.
-After checking out this repo, create a folder named `llms` inside the existing `cli` folder, and copy the LLM models to it.
+Therefore, please provide the quantized models yourself, or you can download them [here](https://drive.google.com/drive/folders/1cvIeDSwH1IzN7ouvwmb1vgg6UTcJIBdq?usp=drive_link). That Google Drive folder contains Llama 2 and Mistral models.
+After checking out this repo, create a folder named `llms` inside the existing `cli` folder, and copy the models to it.
 After downloading the models from the Google Drive folder, the `llms` folder should look like this:
 ```
 llm-chatbot/cli/llms/
@@ -191,7 +191,7 @@ LLM_CHATBOT_BASE_URL=http://llm-chatbot-svc:5000
 CONTEXT_DIR=/path-in-your-machine/llm-chatbot/cli/context
 LLMS_DIR=/path-in-your-machine/llm-chatbot/cli/llms
 ```
-`LLMS_DIR` is where you store LLM model files.
+`LLMS_DIR` is where you store LLM files.
 `CONTEXT_DIR` is the location to store conversations. You just need to provide an empty folder. The chatbot will fill it with conversation files.
 ### Run the services
 ```
