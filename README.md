@@ -174,3 +174,20 @@ The API should return an answer, for example:
 ```
 I apologize, but I am not familiar with a place called "Jatinangor". Could you please provide more context or information about this location? It could be a city, town, or geographic area in a particular country or region. I'll be happy to help you find the information you're looking for.
 ```
+## Running the containers on the same machine using Docker Compose
+
+### Set up environment variable values for Docker Compose
+Create `.env` file. You can adjust these values according to your own environment:
+```
+SVC_PORT=5000
+API_PORT=3000
+LLM_CHATBOT_BASE_URL=http://llm-chatbot-svc:5000
+CONTEXT_DIR=/path-in-your-machine/llm-chatbot/cli/context
+LLMS_DIR=/path-in-your-machine/llm-chatbot/cli/llms
+```
+`LLMS_DIR` is where you store LLM model files.
+`CONTEXT_DIR` is the location to store conversations. You just need to provide an empty folder. The chatbot will fill it with conversation files.
+### Run the services
+```
+docker compose up
+```
