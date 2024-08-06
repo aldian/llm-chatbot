@@ -1,12 +1,27 @@
 version: '3'
 
 services:
+  # Base image for CLI
+  # cli-base:
+  #   build:
+  #     context: ./cli
+  #     dockerfile: Dockerfile.svc_base
+  #   image: llm-chatbot-image-svc-base
+
+  # Base image for API
+  # api-base:
+  #   build:
+  #     context: ./api
+  #     dockerfile: Dockerfile.base
+  #   image: llm-chatbot-api-image-base
+
   cli:
     build:
       context: ./cli
       dockerfile: Dockerfile.svc
       args:
         SVC_PORT: ${SVC_PORT}
+      target: final
     image: llm-chatbot-image-svc
     container_name: llm-chatbot-svc
     ports:
@@ -16,15 +31,19 @@ services:
       - ${LLMS_DIR}:/usr/app/llms
     networks:
       - llm-chatbot-network
+    #depends_on:
+    #  - cli-base
 
   api:
     build: 
       context: ./api
       args:
         API_PORT: ${API_PORT}
+      target: final
     image: llm-chatbot-api-image
     container_name: llm-chatbot-api
     depends_on:
+      #- api-base
       - cli
     ports:
       - "${API_PORT}:${API_PORT}"
