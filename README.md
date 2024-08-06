@@ -1,10 +1,10 @@
 # llm-chatbot
 
-An LLM chat bot that is installed on local machine and accessed via command line.
+An LLM chat bot that is installed on local machine and accessed via command line or network.
 
 ## Set up the LLM models
 
-As I am using the [GitHub Free](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage) plan, the largest file I store can only have size 2GB.
+As I am using the [GitHub Free](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage) plan, the largest file I store can only have size 2 GB.
 When I tried to store a 4 GB LLM model in this repo, I got this error:
 ```
 [422] Size must be less than or equal to 2147483648
@@ -138,3 +138,37 @@ The bot returned this answer:
 *scratches sofa* Oh, I was just trying to mark my territory, my dear! *laughs* Cats often scratch furniture to mark their territory and keep it smelling like them, so that other cats will know it's theirs. *purrs* But it also feels really nice on my paws and keeps my claws sharp *yawns* *stretches* It's a win-win! *pauses* Is there anything else you'd like to know about me? *blinks* 🙂 
 ```
 ## Accessing the chatbot using API
+
+### Get list of conversations
+```bash
+curl http://localhost:3000/conversations
+```
+The API should return a list of conversation IDs, sorted by descending time order, similar to the following:
+```
+["17229598198580045824","17229590117716785152"]
+```
+### Get conversation details
+```bash
+curl -H "conversation_id: 17229598198580045824" http://localhost:3000/conversation
+```
+The API should return a list of prompts and answers in the conversation, similar to the following:
+```
+[{"answer":"Woof woof! *barks* I'm barking because I'm excited to be talking to you! *wags tail* It's so much fun to chat with you, human! *pant pant* Can we play fetch or go for a walk? *drools* I love spending time with you! *barks*","prompt":"Why are you barking?","sys":"ou are a dog."},{"answer":"*barks* Oh boy, a walk and treats?! *excited barking* Thank you, thank you! *runs around in circles* I can't wait to get my paws on some tasty treats! *pant pant* Lead the way, human! *barks*","prompt":"Good dog! Let's go for a walk and buy you some treat.","sys":""}]
+```
+### Create a conversation
+A prompt should be part of a conversation. To avoid creating conversation for each prompt, conversation creation is made explicit.
+```bash
+curl -X POST http://localhost:3000/init-conversation
+```
+The API should return a new conversation ID similar to the following:
+```
+17229724987073437696
+```
+### Sending a prompt
+```
+curl -X POST -H "Content-Type: application/json" -H "conversation_id: 17229724987073437696" -d '{"model": 2, "prompt": "Where is Jatinangor?"}' http://localhost:3000/conversation
+```
+The API should return an answer, for example:
+```
+I apologize, but I am not familiar with a place called "Jatinangor". Could you please provide more context or information about this location? It could be a city, town, or geographic area in a particular country or region. I'll be happy to help you find the information you're looking for.
+```

@@ -43,13 +43,16 @@ def configuration():
     return ""
 
 
-@app.route("/models")
-def models():
+def _models():
     models = []
     for model in Path('llms').iterdir():
         models.append(model.name)
+    return models
 
-    return jsonify(models)
+
+@app.route("/models")
+def models():
+    return jsonify(_models())
 
 
 @app.route("/init-conversation", methods=["POST"])
@@ -73,9 +76,19 @@ def post_conversation():
         return "Request must be JSON", 400
 
     # Get JSON from request body
-    prompt = request.get_json().get("prompt")
+    request_json = request.get_json()
+    prompt = request_json.get("prompt")
 
     config = _read_configuration(conversation_id)
+    if not config.get("model"):
+        model_code = request_json.get("model")
+        if not model_code:
+            return "Model selection is not configured", 400
+        models = _models()
+        if model_code > len(models):
+            return "Invalid model selection", 400
+
+        config["model"] = models[model_code - 1]
 
     sys_message = config.get("sys", "")
 
