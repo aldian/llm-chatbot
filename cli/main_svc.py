@@ -2,7 +2,7 @@ import json
 import os
 import socket
 import subprocess
-import uuid
+import time
 from pathlib import Path
 from flask import Flask, request
 
@@ -55,7 +55,7 @@ def models():
 
 @app.route("/init-conversation", methods=["POST"])
 def init_conversation():
-    conversation_id = uuid.uuid4().hex
+    conversation_id = str(int(time.time() * 10_000_000_000))
     with open("context/conversation_id.txt", "w") as f:
         f.write(conversation_id)
     return conversation_id
@@ -66,7 +66,7 @@ answer_end_marker = "</s>"
 
 
 @app.route("/conversation", methods=["POST"])
-def conversation():
+def post_conversation():
     conversation_id = request.headers.get("conversation_id")
 
     # Make sure the POST body contains JSON
@@ -117,6 +117,62 @@ def conversation():
     conversation += f" {output} </s>"
     conversation_path.write_text(conversation)
     return output
+
+
+@app.route("/conversation", methods=["GET"])
+def get_conversation():
+    conversation_id = request.headers.get("conversation_id")
+
+    conversation = ""
+    conversation_path = Path(f'context/conversation_{conversation_id}.txt')
+    if conversation_path.exists():
+        conversation = conversation_path.read_text()
+
+    turns = []
+    # Each turn is separated by "</s>"
+    raw_turns = [turn.strip('<s>').strip() for turn in 
+                    [turn.strip() for turn in conversation.split("</s>")] 
+                if turn]
+    for turn in raw_turns:
+        # Each turn has `[INUST] prompt [/INST] answer` structure
+        prompt, answer = (x.strip() for x in turn.split("[/INST]", 1))
+
+        # Each prompt can have `<<SYS>> system message <</SYS>> prompt` structure
+        sys_prompt_pair = prompt.split("<</SYS>>", 1)
+        if len(sys_prompt_pair) == 2:
+            sys_message, prompt = (x.strip() for x in sys_prompt_pair)
+            sys_message = sys_message.lstrip("[INST]").lstrip().lstrip("<<SYS>>").lstrip()
+        else:
+            sys_message = ""
+            prompt = sys_prompt_pair[0].strip().lstrip("[INST]").lstrip()
+
+        turns.append({
+            "sys": sys_message,
+            "prompt": prompt,
+            "answer": answer
+        })
+
+    return json.dumps(turns)
+
+
+def _is_number(x):
+    try:
+        int(x)
+        return True
+    except ValueError:
+        return False
+
+
+@app.route("/conversations", methods=["GET"])
+def get_conversations():
+    # Get all files in the `context` directory whose names has format `conversation_*.txt`
+    conversation_files = [file for file in Path('context').iterdir() if file.name.startswith("conversation_")]
+    # Get the file name part after `conversation_` and before `.txt`
+    conversation_ids = [x for x in [file.name[13:-4] for file in conversation_files] if _is_number(x)]
+    # Order the conversation_ids in descending order
+    conversation_ids.sort(reverse=True)
+
+    return json.dumps(conversation_ids)
 
 
 if __name__ == "__main__":
