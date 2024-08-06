@@ -139,6 +139,8 @@ The bot returned this answer:
 ```
 ## Accessing the chatbot using API
 
+An ExpressJS app is to provide public API. The examples below assume that ExpressJS app's base URL is `http://localhost:3000`.
+
 ### Get list of conversations
 ```bash
 curl http://localhost:3000/conversations
