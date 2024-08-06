@@ -174,6 +174,14 @@ The API should return an answer, for example:
 ```
 I apologize, but I am not familiar with a place called "Jatinangor". Could you please provide more context or information about this location? It could be a city, town, or geographic area in a particular country or region. I'll be happy to help you find the information you're looking for.
 ```
+### Sending a follow up prompt
+```
+curl -X POST -H "Content-Type: application/json" -H "conversation_id: 17229724987073437696" -d '{"prompt": "It is a city."}' http://localhost:3000/conversation
+```
+The API should return an answer, for example:
+```
+Thank you for letting me know! Unfortunately, I cannot provide information on a city called "Jatinangor" as it is not a well-known or recognized place. It is possible that it is a small or rural town, or it could be a misspelling or variation of a different city name. Can you please provide more context or details about this city, such as its location or any notable features it may have?
+```
 ## Running the containers on the same machine using Docker Compose
 
 ### Set up environment variable values for Docker Compose
