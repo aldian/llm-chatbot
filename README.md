@@ -10,19 +10,18 @@ When I tried to store a 4 GB LLM model in this repo, I got this error:
 [422] Size must be less than or equal to 2147483648
 ```
 Therefore, please provide the quantized LLM models yourself, or you can download them [here](https://drive.google.com/drive/folders/1cvIeDSwH1IzN7ouvwmb1vgg6UTcJIBdq?usp=drive_link). That Google Drive folder contains Llama 2 and Mistral models.
-After checking out this repo, create a folder named `cli/llms`, and copy the LLM models to it.
+After checking out this repo, create a folder named `llms` inside the existing `cli` folder, and copy the LLM models to it.
 After downloading the models from the Google Drive folder, the `llms` folder should look like this:
 ```
-cli/llms/
+llm-chatbot/cli/llms/
 ├── Llama-2-7B-chat-q5_k_m.gguf
 └── Mistral-Instruct-7.2B-q5_k_m.gguf
 ```
-Create an environment variable named `LLMS_DIR` that points to the full path of the `cli/llms` folder.
+Create an environment variable named `LLMS_DIR` that points to the full path of the `llms` folder.
 
 ## Set up the conversation context folder
 
-Create a folder named `cli/context` and create an environment variable named `CONTEXT_DIR` that points to the full path of
-the `context` folder.
+Create a folder named `context` inside the existing `cli` folder and create an environment variable named `CONTEXT_DIR` that points to the full path of the `context` folder.
 
 ## Accessing the chatbot using CLI
 To run the chatbot using CLI, change the directory to the `cli` folder:
