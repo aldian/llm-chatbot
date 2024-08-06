@@ -1,0 +1,12 @@
+FROM llm-chatbot-image-svc-base:latest
+
+ARG SVC_PORT
+
+COPY . .
+
+EXPOSE ${SVC_PORT}
+
+RUN python3 -m pip install -r requirements_svc.txt
+ENV SOCKET="0.0.0.0:${SVC_PORT}"
+
+CMD ["/bin/bash", "start_uwsgi.sh"]

@@ -24,23 +24,27 @@ Create an environment variable named `LLMS_DIR` that points to the full path of 
 Create a folder named `context` and create an environment variable named `CONTEXT_DIR` that points to the full path of
 the `context` folder.
 
-## Build the docker container
-```
-make build
-```
 ## Running the script
 
-### Set to use Mistral
+### Pure standalone script
+
+Use this mode if you don't need the chatbot to be used by a frontend app.
+
+#### Build the docker container
 ```
-make run MODEL=1
+make build-cli
 ```
-### Set to use Llama 2
+#### Set to use Mistral
 ```
-make run MODEL=2
+make run-cli MODEL=1
 ```
-### Set the system message and send prompt
+#### Set to use Llama 2
 ```
-make run SYS="You are an astronaut." PROMPT="Sir, I want to be an astronaut. What should I do?"
+make run-cli MODEL=2
+```
+#### Set the system message and send prompt
+```
+make run-cli SYS="You are an astronaut." PROMPT="Sir, I want to be an astronaut. What should I do?"
 ```
 The model gave me this answer:
 ```
@@ -57,9 +61,9 @@ Wow, that's a great question! Becoming an astronaut is a challenging and excitin
 
 Remember, becoming an astronaut is a highly competitive process, but with hard work, dedication, and perseverance, it is possible to achieve your dream. Good luck!
 ```
-### Send follow up prompt
+#### Send follow up prompt
 ```
-make run PROMPT="Please elaborate step 6."
+make run-cli PROMPT="Please elaborate step 6."
 ```
 Thoe model gave me this answer:
 ```
@@ -76,4 +80,20 @@ Of course! Here are some additional details about step 6, which is to consider b
 5. It's important to research the specific requirements and process for becoming a citizen of the country you are interested in, as well as the requirements for applying to their space program.
 
 I hope this helps clarify things! Do you have any other questions about step 6?
+```
+### Using Flask server
+
+Use this mode if you need the chatbot to be used by a frontend app.
+
+#### Build the docker container
+```
+make build-svc-base
+make build-svc
+```
+#### Start the Flask server
+```
+make start-svc
+```
+```
+make svc-init-conversation
 ```

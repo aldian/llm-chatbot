@@ -1,2 +1,4 @@
 llms/
 context/
+.venv/
+*.wasm
