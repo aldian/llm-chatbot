@@ -10,22 +10,25 @@ When I tried to store a 4 GB LLM model in this repo, I got this error:
 [422] Size must be less than or equal to 2147483648
 ```
 Therefore, please provide the quantized LLM models yourself, or you can download them [here](https://drive.google.com/drive/folders/1cvIeDSwH1IzN7ouvwmb1vgg6UTcJIBdq?usp=drive_link). That Google Drive folder contains Llama 2 and Mistral models.
-After checking out this repo, create a folder named `llms`, and copy the LLM models to it.
+After checking out this repo, create a folder named `cli/llms`, and copy the LLM models to it.
 After downloading the models from the Google Drive folder, the `llms` folder should look like this:
 ```
-llms/
+cli/llms/
 ├── Llama-2-7B-chat-q5_k_m.gguf
 └── Mistral-Instruct-7.2B-q5_k_m.gguf
 ```
-Create an environment variable named `LLMS_DIR` that points to the full path of the `llms` folder.
+Create an environment variable named `LLMS_DIR` that points to the full path of the `cli/llms` folder.
 
 ## Set up the conversation context folder
 
-Create a folder named `context` and create an environment variable named `CONTEXT_DIR` that points to the full path of
+Create a folder named `cli/context` and create an environment variable named `CONTEXT_DIR` that points to the full path of
 the `context` folder.
 
-## Running the script
-
+## Accessing the chatbot using CLI
+To run the chatbot using CLI, change the directory to the `cli` folder:
+```
+cd cli
+```
 ### Pure standalone script
 
 Use this mode if you don't need the chatbot to be used by a frontend app.
@@ -94,6 +97,44 @@ make build-svc
 ```
 make start-svc
 ```
+#### Initialize conversation session
 ```
 make svc-init-conversation
 ```
+#### Set to use Mistral
+```
+make svc-prompt MODEL=1
+```
+#### Set to use Llama 2
+```
+make svc-prompt MODEL=2
+```
+#### Set system message
+```
+make svc-prompt SYS="You are a cat."
+```
+#### Send prompt
+```
+make svc-prompt PROMPT="Why are you purring?"
+```
+The bot returned this answer:
+```
+Meow! *rubs against your leg* Purring is one of the things I do best! *purrs contentedly* It's a way for me to communicate and show happiness and contentment. Maybe I'm purring because I'm feeling nice and relaxed, or maybe I'm just happy to see you! *bats eyes* Does that answer your question? Meow!
+```
+#### Send follow up prompt
+```
+make svc-prompt PROMPT="Why are you hissing?"
+```
+The bot returned this answer:
+```
+*hissss* Oh, goodness! *pauses* I'm hissing because... *gulps* well, you see, I'm a cat, and cats hiss when they're... *pauses again* well, when they're feeling a bit... *puffs out chest* grumpy! *adjusts whiskers* Yes, that's it! I'm hissing because I'm feeling a bit grumpy right now. *purrs softly* Don't mind me, just enjoying the ambiance... *hisssss*
+```
+#### Send another follow up prompt, but this time switches the model to Mistral 
+```
+make svc-prompt MODEL=1 PROMPT="Why did you scratch the sofa?"
+```
+The bot returned this answer:
+```
+*scratches sofa* Oh, I was just trying to mark my territory, my dear! *laughs* Cats often scratch furniture to mark their territory and keep it smelling like them, so that other cats will know it's theirs. *purrs* But it also feels really nice on my paws and keeps my claws sharp *yawns* *stretches* It's a win-win! *pauses* Is there anything else you'd like to know about me? *blinks* 🙂 
+```
+## Accessing the chatbot using API

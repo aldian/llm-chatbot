@@ -59,10 +59,9 @@ start-svc: llms_host_dir_defined context_host_dir_defined svc_port_defined
 		-it --rm -d $(IMAGE_NAME_SVC)
 
 svc-init-conversation: svc_port_defined
-	@#python main_svc_cli.py --svc-port $(SVC_PORT) --init-conversation
 	@docker exec -it $(CONTAINER_NAME_SVC) python3 main_svc_cli.py --svc-port $(SVC_PORT) --init-conversation
 
-svc-prompt: svc_port_defined prompt_defined
+svc-prompt: svc_port_defined
 	@docker exec -it $(CONTAINER_NAME_SVC) python3 main_svc_cli.py --svc-port $(SVC_PORT) \
 		$(if "$(SYS)",--sys "$(SYS)") \
 		$(if $(MODEL),--model $(MODEL)) \

@@ -12,7 +12,7 @@ async def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--svc-port", help="Server port number", type=int)
     parser.add_argument("--init-conversation", help="Initialize conversation from a clean", action="store_true")
-    parser.add_argument("--model", help="Choose model", type=int)
+    parser.add_argument("--model", help="Choose model", type=int, default=0)
     parser.add_argument("--sys", help="System message", type=str)
     parser.add_argument("--prompt", help="Prompt", type=str)
     args = parser.parse_args()
