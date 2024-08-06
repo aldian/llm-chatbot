@@ -1,10 +1,9 @@
 import json
 import os
-import socket
 import subprocess
 import time
 from pathlib import Path
-from flask import Flask, request
+from flask import Flask, jsonify, request
 
 
 app = Flask(__name__)
@@ -50,7 +49,7 @@ def models():
     for model in Path('llms').iterdir():
         models.append(model.name)
 
-    return json.dumps(models)
+    return jsonify(models)
 
 
 @app.route("/init-conversation", methods=["POST"])
@@ -152,7 +151,7 @@ def get_conversation():
             "answer": answer
         })
 
-    return json.dumps(turns)
+    return jsonify(turns)
 
 
 def _is_number(x):
@@ -172,7 +171,7 @@ def get_conversations():
     # Order the conversation_ids in descending order
     conversation_ids.sort(reverse=True)
 
-    return json.dumps(conversation_ids)
+    return jsonify(conversation_ids)
 
 
 if __name__ == "__main__":

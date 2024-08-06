@@ -7,6 +7,7 @@ CONTAINER_NAME_SVC = llm-chatbot-svc
 DOCKERFILE_CLI = Dockerfile.cli
 DOCKERFILE_SVC_BASE = Dockerfile.svc_base
 DOCKERFILE_SVC = Dockerfile.svc
+NETWORK_NAME = llm-chatbot-network
 LLMS_CONTAINER_DIR = /usr/app/llms
 CONTEXT_CONTAINER_DIR = /usr/app/context
 
@@ -41,6 +42,9 @@ ifndef PROMPT
 	$(error Please set PROMPT to communicate with the chatbot)
 endif
 
+create-docker-network:
+	@docker network create $(NETWORK_NAME) || true
+
 # Run the Docker container with the shared folder
 run-cli: llms_host_dir_defined context_host_dir_defined
 	@docker run --name=$(CONTAINER_NAME_CLI) \
@@ -55,6 +59,7 @@ start-svc: llms_host_dir_defined context_host_dir_defined svc_port_defined
 	@docker run --name=$(CONTAINER_NAME_SVC) \
 		-v $(LLMS_DIR):$(LLMS_CONTAINER_DIR) \
 		-v $(CONTEXT_DIR):$(CONTEXT_CONTAINER_DIR) \
+		--network $(NETWORK_NAME) \
 		-p $(SVC_PORT):$(SVC_PORT) \
 		-it --rm -d $(IMAGE_NAME_SVC)
 
