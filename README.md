@@ -90,7 +90,6 @@ Use this mode if you need the chatbot to be used by a frontend app.
 
 #### Build the docker container
 ```
-make build-svc-base
 make build-svc
 ```
 #### Start the Flask server
