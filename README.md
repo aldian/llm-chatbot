@@ -1,16 +1,16 @@
 # llm-chatbot
 
-An LLM chat bot that is installed on local machine and accessed via command line or network.
+An LLM chatbot that can installed on a local machine and accessed via the command line or network.
 
 ## Set up the LLM files
 
-As I am using the [GitHub Free](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage) plan, the largest file I store can only have size 2 GB.
+As I am using the [GitHub Free](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage) plan, the largest file I can store is 2 GB.
 When I tried to store a 4 GB LLM file in this repo, I got this error:
 ```
 [422] Size must be less than or equal to 2147483648
 ```
 Therefore, please provide the quantized models yourself, or you can download them [here](https://drive.google.com/drive/folders/1cvIeDSwH1IzN7ouvwmb1vgg6UTcJIBdq?usp=drive_link). That Google Drive folder contains Llama 2 and Mistral models.
-After checking out this repo, create a folder named `llms` inside the existing `cli` folder, and copy the models to it.
+After checking out this repo, create a folder named `llms` inside the existing `cli` folder and copy the models to it.
 After downloading the models from the Google Drive folder, the `llms` folder should look like this:
 ```
 llm-chatbot/cli/llms/
@@ -35,9 +35,9 @@ CONTEXT_DIR=/path-in-your-machine/llm-chatbot/cli/context
 LLMS_DIR=/path-in-your-machine/llm-chatbot/cli/llms
 ```
 `LLMS_DIR` is where you store LLM files.
-`CONTEXT_DIR` is the location to store conversations. You just need to provide an empty folder. The chatbot will fill it with conversation files.
-The API needs communicate with the backend chatbot, so `LLM_CHATBOSE_BASE_URL` needs to point to the URL of chatbot's Flask app. 
-If you are using Docker compose, `http://llm-chatbot-svc:5000` is the correct value.
+`CONTEXT_DIR` is the location where conversations are stored. You just need to provide an empty folder. The chatbot will fill it with conversation files.
+The API needs to communicate with the backend chatbot, so `LLM_CHATBOSE_BASE_URL` needs to point to the URL of the chatbot's Flask app. 
+If you are using Docker Compose, `http://llm-chatbot-svc:5000` is the correct value.
 
 ### Run the services
 ```
@@ -45,7 +45,7 @@ docker compose up
 ```
 ## Accessing the chatbot using API
 
-An ExpressJS app is to provide public API. The examples below assume that ExpressJS app's base URL is `http://localhost:3000`.
+An ExpressJS app is to provide public API. The examples below assume that the ExpressJS app's base URL is `http://localhost:3000`.
 
 ### Get list of conversations
 ```bash
@@ -73,8 +73,8 @@ The API should return a new conversation ID similar to the following:
 17229724987073437696
 ```
 ### Sending a prompt
-If a conversation haven't specify a model, it needs to specify it by sending `POST /conversation`, with `model` as one of 
-attribute in the JSON body. `model` equals `1` means Mistral, `model` equals `2` means Llama 2.
+If a conversation hasn't specify a model, it needs to specify it by sending `POST /conversation`, with `model` as one of 
+attributes in the JSON body. `model` equals `1` means Mistral, `model` equals `2` means Llama 2.
 ```
 curl -X POST -H "Content-Type: application/json" -H "conversation_id: 17229724987073437696" -d '{"model": 2, "prompt": "Where is Jatinangor?"}' http://localhost:3000/conversation
 ```
@@ -101,12 +101,12 @@ cd cli
 Use this mode if you need the chatbot to be used by a frontend app.
 
 #### Build the docker container
-If for some reason you can't use Docker Compose, you can build the chatbot's docker container using the following command:
+If, for some reason, you can't use Docker Compose, you can build the chatbot's docker container using the following command:
 ```
 make build-svc
 ```
 #### Start the Flask server
-If for some reason you can't use Docker Compose, you can start the chatbot's docker container using the following command:
+If, for some reason, you can't use Docker Compose, you can start the chatbot's docker container using the following command:
 ```
 make start-svc
 ```
@@ -124,25 +124,25 @@ make svc-prompt MODEL=2
 ```
 #### Set system message
 ```
-make svc-prompt SYS="You are a cat."
+Make svc-prompt SYS="You are a cat."
 ```
 #### Send prompt
 ```
-make svc-prompt PROMPT="Why are you purring?"
+Make svc-prompt PROMPT="Why are you purring?"
 ```
 The bot returned this answer:
 ```
 Meow! *rubs against your leg* Purring is one of the things I do best! *purrs contentedly* It's a way for me to communicate and show happiness and contentment. Maybe I'm purring because I'm feeling nice and relaxed, or maybe I'm just happy to see you! *bats eyes* Does that answer your question? Meow!
 ```
-#### Send follow up prompt
+#### Send follow-up prompt
 ```
-make svc-prompt PROMPT="Why are you hissing?"
+Make svc-prompt PROMPT="Why are you hissing?"
 ```
 The bot returned this answer:
 ```
 *hissss* Oh, goodness! *pauses* I'm hissing because... *gulps* well, you see, I'm a cat, and cats hiss when they're... *pauses again* well, when they're feeling a bit... *puffs out chest* grumpy! *adjusts whiskers* Yes, that's it! I'm hissing because I'm feeling a bit grumpy right now. *purrs softly* Don't mind me, just enjoying the ambiance... *hisssss*
 ```
-#### Send another follow up prompt, but this time switches the model to Mistral 
+#### Send another follow-up prompt, but this time switch the model to Mistral 
 ```
 make svc-prompt MODEL=1 PROMPT="Why did you scratch the sofa?"
 ```
@@ -153,7 +153,7 @@ The bot returned this answer:
 
 ### Pure standalone script
 
-Use this mode if you don't need the chatbot to be used by a frontend app.
+Use this mode if you don't need the chatbot to be used by a front-end app.
 
 #### Build the docker container
 ```
@@ -186,11 +186,11 @@ Wow, that's a great question! Becoming an astronaut is a challenging and excitin
 
 Remember, becoming an astronaut is a highly competitive process, but with hard work, dedication, and perseverance, it is possible to achieve your dream. Good luck!
 ```
-#### Send follow up prompt
+#### Send follow-up prompt
 ```
 make run-cli PROMPT="Please elaborate step 6."
 ```
-Thoe model gave me this answer:
+The model gave me this answer:
 ```
 Of course! Here are some additional details about step 6, which is to consider becoming a citizen of a country with a space program:
 
