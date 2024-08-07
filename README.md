@@ -26,7 +26,7 @@ Create a folder named `context` inside the existing `cli` folder and create an e
 ## Running the containers on the same machine using Docker Compose
 
 ### Set up environment variable values for Docker Compose
-Create `.env` file. You can adjust these values according to your own environment:
+Create `.env` file in the source code's root folder. Add these values and adjust them according to your own environment:
 ```
 SVC_PORT=5000
 API_PORT=3000
