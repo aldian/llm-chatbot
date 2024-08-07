@@ -74,7 +74,7 @@ The API should return a new conversation ID similar to the following:
 ```
 ### Sending a prompt
 If a conversation haven't specify a model, it needs to specify it by sending `POST /conversation`, with `model` as one of 
-attribute in the JSON body. `model` equals `1` means Mistral, `model` equals `2`, means Llama 2.
+attribute in the JSON body. `model` equals `1` means Mistral, `model` equals `2` means Llama 2.
 ```
 curl -X POST -H "Content-Type: application/json" -H "conversation_id: 17229724987073437696" -d '{"model": 2, "prompt": "Where is Jatinangor?"}' http://localhost:3000/conversation
 ```
