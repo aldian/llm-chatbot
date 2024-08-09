@@ -25,6 +25,8 @@ Create a folder named `context` inside the existing `cli` folder and create an e
 
 ## Running the containers on the same machine using Docker Compose
 
+Please check [this video](https://youtu.be/FY9KJPERQg0) to see how to set up and test.
+
 ### Set up environment variable values for Docker Compose
 Create `.env` file in the source code's root folder. Add these values and adjust them according to your own environment:
 ```
@@ -74,7 +76,7 @@ The API should return a new conversation ID similar to the following:
 ```
 ### Sending a prompt
 If a conversation hasn't specify a model, it needs to specify it by sending `POST /conversation`, with `model` as one of 
-attributes in the JSON body. `model` equals `1` means Mistral, `model` equals `2` means Llama 2.
+attributes in the JSON body. On my machine, `model` equals `1` means Mistral, `model` equals `2` means Llama 2.
 ```
 curl -X POST -H "Content-Type: application/json" -H "conversation_id: 17229724987073437696" -d '{"model": 2, "prompt": "Where is Jatinangor?"}' http://localhost:3000/conversation
 ```
